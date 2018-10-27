@@ -1,0 +1,16 @@
+{
+    "name": "Axpert Inverter",
+    "version": "0.0.5",
+    "slug": "axpert",
+    "description": "Monitors an axpert inverter",
+    "startup": "application",
+    "boot": "auto",
+    "privileged": ["SYS_RAWIO"],
+    "devices": ["/dev/hidraw0:/dev/hidraw0:rwm"],
+    "options": {
+      "mqtt_server": ""
+    },
+    "schema": {
+      "mqtt_server": "str"
+    }
+  }
