@@ -121,21 +121,28 @@ def get_parallel_data():
 def get_data():
     #collect data from axpert inverter
     try:
-        data = '{'
         response = serial_command('QPIGS')
         nums = response.split(' ')
-        if len(nums) < 15:
-            return data + '}'
+        if len(nums) < 21:
+            return ''
 
-        data += ',"BusVoltage":' + str(float(nums[7]))
+        data = '{'
+
+        data += '"BusVoltage":' + str(float(nums[7]))
         data += ',"InverterHeatsinkTemperature":' + str(float(nums[11]))
         data += ',"BatteryVoltageFromScc":' + str(float(nums[14]))
+        data += ',"PvInputCurrent":' + str(int(nums[12]))
+        data += ',"PvInputVoltage":' + str(float(nums[13]))
+        data += ',"PvInputPower":' + str(int(nums[19]))
+        data += ',"BatteryChargingCurrent": ' + str(int(nums[9]))
+        data += ',"BatteryDischargeCurrent":' + str(int(nums[15]))
+        data += ',"DeviceStatus":"' + nums[16] + '"'
 
         data += '}'
+        return data
     except Exception as e:
         print('error parsing inverter data...: ' + str(e))
         return ''
-    return data
 
 def send_data(data, topic):
     try:

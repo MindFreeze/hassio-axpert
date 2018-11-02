@@ -1,6 +1,6 @@
 {
     "name": "Axpert Inverter",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "slug": "axpert",
     "description": "Monitors an axpert inverter",
     "startup": "application",
@@ -8,7 +8,7 @@
     "privileged": ["SYS_RAWIO"],
     "devices": ["/dev/hidraw0:/dev/hidraw0:rwm"],
     "options": {
-      "mqtt_server": ""
+      "mqtt_server": "hassio"
     },
     "schema": {
       "mqtt_server": "str"
