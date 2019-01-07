@@ -158,13 +158,13 @@ def main():
         data = get_parallel_data()
         # data = '{"TotalAcOutputActivePower": 1000}'
         if not data == '':
-            send = send_data(data, 'power/axpert')
+            send = send_data(data, os.environ['MQTT_TOPIC_PARALLEL'])
 
         data = get_data()
         if not data == '':
-            send = send_data(data, 'power/axpert1')
+            send = send_data(data, os.environ['MQTT_TOPIC'])
 
-        time.sleep(2)
+        time.sleep(4)
 
 if __name__ == '__main__':
     main()
