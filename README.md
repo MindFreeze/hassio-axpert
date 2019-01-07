@@ -1,4 +1,4 @@
-![inverters image](http://www.voltronicpower.com/oCart2/image/cache/data/Solar%20Products/Axpert%20KS-1K-5K-3KP-5KP%20R%20-%20shadow-300x300.jpg)
+![inverters image](https://energypower.gr/wp-content/uploads/2015/12/inverter-axpert-mks-5-kva.jpg)
 ================
 
 This is a Hassio addon to monitor [voltronic axpert inverters](http://www.voltronicpower.com/oCart2/index.php?route=product/product&product_id=123) through USB and publish the data as JSON to an MQTT broker. It publishes the data to 2 topics:
