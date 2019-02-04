@@ -18,10 +18,11 @@ import re
 import crcmod
 from binascii import unhexlify
 import paho.mqtt.client as mqtt
+from random import randint
 
 def connect():
     global client
-    client = mqtt.Client(client_id="axpert")
+    client = mqtt.Client(client_id=os.environ['MQTT_CLIENT_ID'])
     client.connect(os.environ['MQTT_SERVER'])
     try:
         global file
@@ -84,6 +85,7 @@ def get_parallel_data():
             data += '"Gridmode":1'
         else:
             data += '"Gridmode":0'
+        data += ',"SerialNumber": ' + str(int(nums[1]))
         data += ',"BatteryChargingCurrent": ' + str(int(nums[12]))
         data += ',"BatteryDischargeCurrent": ' + str(int(nums[26]))
         data += ',"TotalChargingCurrent": ' + str(int(nums[15]))
@@ -153,7 +155,10 @@ def send_data(data, topic):
     return 1
 
 def main():
+    time.sleep(randint(0, 2)) # so parallel streams might start at different times
     connect();
+    serial_number = serial_command('QID')
+    print('Reading from inverter ' + serial_number)
     while True:
         data = get_parallel_data()
         # data = '{"TotalAcOutputActivePower": 1000}'
@@ -162,9 +167,9 @@ def main():
 
         data = get_data()
         if not data == '':
-            send = send_data(data, os.environ['MQTT_TOPIC'])
+            send = send_data(data, os.environ['MQTT_TOPIC'].replace('{sn}', serial_number))
 
-        time.sleep(4)
+        time.sleep(3)
 
 if __name__ == '__main__':
     main()
