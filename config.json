@@ -1,6 +1,6 @@
 {
     "name": "Axpert Inverter",
-    "version": "0.2.6",
+    "version": "0.3.0",
     "slug": "axpert",
     "description": "Monitors an axpert inverter",
     "startup": "application",
@@ -9,12 +9,16 @@
     "devices": ["/dev/hidraw0:/dev/hidraw0:rwm"],
     "options": {
         "mqtt_server": "core-mosquitto",
+        "mqtt_user": "mqtt",
+        "mqtt_pass": "mqtt",
         "mqtt_client_id": "axpert",
         "mqtt_topic_parallel": "power/axpert",
         "mqtt_topic": "power/axpert{sn}"
     },
     "schema": {
         "mqtt_server": "str",
+        "mqtt_user": "str",
+        "mqtt_pass": "str",
         "mqtt_client_id": "str",
         "mqtt_topic_parallel": "str",
         "mqtt_topic": "str"

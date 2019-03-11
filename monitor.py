@@ -23,6 +23,7 @@ from random import randint
 def connect():
     global client
     client = mqtt.Client(client_id=os.environ['MQTT_CLIENT_ID'])
+    client.username_pw_set(os.environ['MQTT_USER'], os.environ['MQTT_PASS'])
     client.connect(os.environ['MQTT_SERVER'])
     try:
         global file
