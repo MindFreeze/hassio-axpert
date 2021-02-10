@@ -1,11 +1,13 @@
-![inverters image](https://energypower.gr/wp-content/uploads/2015/12/inverter-axpert-mks-5-kva.jpg)
-================
+# ![inverters image](https://energypower.gr/wp-content/uploads/2015/12/inverter-axpert-mks-5-kva.jpg)
 
-This is a Hassio addon to monitor [voltronic axpert inverters](http://www.voltronicpower.com/oCart2/index.php?route=product/product&product_id=123) through USB and publish the data as JSON to an MQTT broker. It publishes the data to 2 topics:
+This is a Hassio addon to monitor [voltronic axpert inverters](http://www.voltronicpower.com/oCart2/index.php?route=product/product&product_id=123) through USB and publish the data as JSON to an MQTT broker. It publishes the data to 3 topics:
+
 - 'power/axpert' for the parallel data (some of these values seem to be only for the connected inverter even though they are returned by the parallel data command)
+- 'power/axpert_settings' for the configured settings
 - 'power/axpert{sn}' for the data from the connected inverter (configurable, {sn} is replaced with the serial number of the inverter)
 
 You can then configure the sensors in Home Assistant like this:
+
 ```
 sensors:
   - platform: mqtt
@@ -42,6 +44,34 @@ The values published on 'power/axpert' are:
 - PvInputCurrentForBattery
 - Gridmode
 - Solarmode
+
+The values published on 'power/axpert_settings' are:
+- AcInputVoltage
+- AcInputCurrent
+- AcOutputVoltage
+- AcOutputFrequency
+- AcOutputCurrent
+- AcOutputApparentPower
+- AcOutputActivePower
+- BatteryVoltage
+- BatteryRechargeVoltage
+- BatteryUnderVoltage
+- BatteryBulkVoltage
+- BatteryFloatVoltage
+- BatteryType
+- MaxAcChargingCurrent
+- MaxChargingCurrent
+- InputVoltageRange
+- OutputSourcePriority
+- ChargerSourcePriority
+- MaxParallelUnits
+- MachineType
+- Topology
+- OutputMode
+- BatteryRedischargeVoltage
+- PvOkCondition
+- PvPowerBalance
+- MaxBatteryCvChargingTime
 
 The values published on 'power/axpert{sn}' are:
 - BusVoltage

@@ -1,7 +1,5 @@
 {
-    "build_from": {
-    },
+    "build_from": {},
     "squash": false,
-    "args": {
-    }
+    "args": {}
 }
