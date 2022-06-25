@@ -1,3 +1,6 @@
+## DEPRECATED
+This seems to be broken now and I don't have time to fix it. Refer to [this comment](https://github.com/MindFreeze/hassio-axpert/commit/0aab6e68bba688aa72267dba5025534ade5aad99#commitcomment-76609756) for alternatives
+
 # ![inverters image](https://energypower.gr/wp-content/uploads/2015/12/inverter-axpert-mks-5-kva.jpg)
 
 This is a Hassio addon to monitor [voltronic axpert inverters](http://www.voltronicpower.com/oCart2/index.php?route=product/product&product_id=123) through USB and publish the data as JSON to an MQTT broker. It publishes the data to 3 topics:
