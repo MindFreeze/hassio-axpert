@@ -13,7 +13,8 @@ import calendar
 import os
 import fcntl
 import re
-import crcmod
+import unicodedata
+import crcmod.predefined
 from binascii import unhexlify
 import paho.mqtt.client as mqtt
 from random import randint
@@ -37,9 +38,12 @@ def connect():
 
 def serial_command(command):
     print(command)
+
     try:
         xmodem_crc_func = crcmod.predefined.mkCrcFun('xmodem')
-        command_crc = command + unhexlify(hex(xmodem_crc_func(command)).replace('0x','',1)) + '\x0d'
+        command_bytes = command.encode('utf-8')
+        command_crc_hex = hex(xmodem_crc_func(command_bytes)).replace('0x', '')
+        command_crc = command_bytes + unhexlify(command_crc_hex.encode('utf-8')) + b'\x0d'
 
         try:
             file = open(os.environ['DEVICE'], 'r+')
@@ -49,28 +53,32 @@ def serial_command(command):
         except Exception as e:
             print('error open file descriptor: ' + str(e))
             exit()
-        
+
         os.write(fd, command_crc)
 
-        response = ''
+        response = b''
         timeout_counter = 0
-        while '\r' not in response:
+        while b'\r' not in response:
             if timeout_counter > 500:
                 raise Exception('Read operation timed out')
             timeout_counter += 1
             try:
                 response += os.read(fd, 100)
             except Exception as e:
-                # print("error reading response...: " + str(e))
                 time.sleep(0.01)
-            if len(response) > 0 and response[0] != '(' or 'NAKss' in response:
+            if len(response) > 0 and (response[0] != ord('(') or b'NAKss' in response):
                 raise Exception('NAKss')
+
+        try:
+            response = response.decode('utf-8')
+        except UnicodeDecodeError:
+            response = response.decode('iso-8859-1')
 
         print(response)
         response = response.rstrip()
         lastI = response.find('\r')
         response = response[1:lastI-2]
-        
+
         file.close()
         return response
     except Exception as e:
@@ -206,29 +214,32 @@ def send_data(data, topic):
     return 1
 
 def main():
-    time.sleep(randint(0, 5)) # so parallel streams might start at different times
-    connect();
+    time.sleep(randint(0, 5))  # so parallel streams might start at different times
+    connect()
+    
     serial_number = serial_command('QID')
     print('Reading from inverter ' + serial_number)
+
     while True:
-        data = get_parallel_data()
-        # data = '{"TotalAcOutputActivePower": 1000}'
-        if not data == '':
-            send = send_data(data, os.environ['MQTT_TOPIC_PARALLEL'])
-
-        time.sleep(1)
-        
-        data = get_data()
-        if not data == '':
-            send = send_data(data, os.environ['MQTT_TOPIC'].replace('{sn}', serial_number))
-
-        time.sleep(1)
-        
-        data = get_settings()
-        if not data == '':
-            send = send_data(data, os.environ['MQTT_TOPIC_SETTINGS'])
-
-        time.sleep(4)
+        try:
+            data = get_parallel_data()
+            if data != '':
+                send_data(data, os.environ['MQTT_TOPIC_PARALLEL'])
+            time.sleep(1)
+            
+            data = get_data()
+            if data != '':
+                send_data(data, os.environ['MQTT_TOPIC'].replace('{sn}', serial_number))
+            time.sleep(1)
+            
+            data = get_settings()
+            if data != '':
+                send_data(data, os.environ['MQTT_TOPIC_SETTINGS'])
+            time.sleep(4)
+        except Exception as e:
+            print("Error occurred:", e)
+            # Consider handling specific errors or performing a reconnect here
+            time.sleep(10)  # Delay before retrying to avoid continuous strain
 
 if __name__ == '__main__':
     main()

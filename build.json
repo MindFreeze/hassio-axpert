@@ -1,7 +1,7 @@
 {
     "build_from": {
-        "amd64": "amd64/python:2.7-alpine",
-        "armv7": "arm32v7/python:2.7-alpine"
+        "amd64": "amd64/python:3-alpine",
+        "armv7": "arm32v7/python:3-alpine"
     },
     "squash": false,
     "args": {

@@ -3,8 +3,10 @@ FROM $BUILD_FROM
 
 ENV LANG C.UTF-8
 
+COPY requirements.txt /
+
 RUN apk add --no-cache jq && \
-  pip install --upgrade pip setuptools crcmod paho-mqtt && \
+  pip install -r requirements.txt && \
   rm -rf /root/.cache
 
 COPY monitor.py /
