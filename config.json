@@ -1,14 +1,14 @@
 {
     "name": "Axpert Inverter",
-    "version": "0.4.5",
+    "version": "0.4.20",
     "slug": "axpert",
     "description": "Monitors an axpert inverter",
-    "arch": ["amd64", "armv7", "i386"],
+    "arch": ["amd64", "armv7"],
     "startup": "application",
     "boot": "auto",
+    "init": false,
     "privileged": ["SYS_RAWIO"],
     "devices": ["/dev/hidraw0"],
-    "init": false,
     "options": {
         "mqtt_server": "core-mosquitto",
         "mqtt_user": "mqtt",

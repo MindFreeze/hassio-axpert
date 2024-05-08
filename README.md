@@ -1,5 +1,5 @@
-## DEPRECATED
-This seems to be broken now and I don't have time to fix it. Refer to [this comment](https://github.com/MindFreeze/hassio-axpert/commit/0aab6e68bba688aa72267dba5025534ade5aad99#commitcomment-76609756) for alternatives
+## Warning
+I don't have time to work on this anymore. It may or may not work for you. Refer to [this comment](https://github.com/MindFreeze/hassio-axpert/commit/0aab6e68bba688aa72267dba5025534ade5aad99#commitcomment-76609756) for alternatives
 
 # ![inverters image](https://energypower.gr/wp-content/uploads/2015/12/inverter-axpert-mks-5-kva.jpg)
 

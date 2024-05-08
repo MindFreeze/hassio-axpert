@@ -3,11 +3,9 @@ FROM $BUILD_FROM
 
 ENV LANG C.UTF-8
 
-RUN apk add --no-cache python2 && \
-    python2 -m ensurepip && \
-    rm -r /usr/lib/python*/ensurepip && \
-    pip install --upgrade pip setuptools crcmod paho-mqtt && \
-    rm -r /root/.cache
+RUN apk add --no-cache jq && \
+  pip install --upgrade pip setuptools crcmod paho-mqtt && \
+  rm -rf /root/.cache
 
 COPY monitor.py /
 COPY run.sh /
