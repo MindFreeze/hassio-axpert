@@ -1,6 +1,6 @@
 {
     "name": "Axpert Inverter",
-    "version": "0.5.0",
+    "version": "0.5.1",
     "slug": "axpert",
     "description": "Monitors an axpert inverter",
     "arch": ["amd64", "armv7"],
